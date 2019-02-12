@@ -1,0 +1,36 @@
+{
+	"id": "nodebb-theme-mff",
+	"library": "library.js",
+	"hooks": [
+		{ "hook": "filter:teasers.get", "method": "getTeasers" },
+		{ "hook": "filter:widgets.getAreas", "method": "defineWidgetAreas" },
+		{ "hook": "filter:config.get", "method": "getThemeConfig" },
+		{ "hook": "static:app.load", "method": "init" },
+		{ "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+		{ "hook": "filter:topic.build", "method": "addUserToTopic" },
+		{ "hook": "filter:user.customSettings", "method": "addUserSettings" },
+		{ "hook": "action:user.saveSettings", "method": "saveUserSettings" },
+		{ "hook": "filter:user.getSettings", "method": "getUserSettings" },
+		{ "hook": "filter:user.whitelistFields", "method": "appendUserFields" },
+		{ "hook": "filter:meta.getLinkTags", "method": "getLinkTags" }
+	],
+	"scripts": [
+		"lib/persona.js",
+        "lib/mff.js",
+		"lib/modules/nprogress.js",
+		"lib/modules/autohidingnavbar.min.js",
+		"lib/modules/quickreply.js"
+	],
+	"modules": {
+		"pulling.js": "node_modules/pulling/build/pulling-drawer.js"
+	},
+	"staticDirs": {
+		"images": "static/images",
+		"fonts": "static/fonts",
+		"styles": "static/styles"
+	},
+	"acpScripts": [
+		"lib/admin.js"
+	],
+	"languages": "languages"
+}

@@ -1,0 +1,41 @@
+/*****************************\
+  Minecraft Forge France V4.0
+		Node BB Theme CSS       
+\*****************************/
+
+@import 'mff/ubuntu_font';
+
+// Banner
+#banner {
+	background: url(/plugins/nodebb-theme-mff/images/background.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 200px;
+	background-origin: content-box;
+	width: 100%;
+	top: -25px;
+	position: relative;
+	left: auto;
+	right: 0;
+}
+
+// make the forum larger on desktop
+@media (min-width: @screen-lg-min) {
+    .container {
+        width: 83.33%;
+        width: calc(100% / 1.2);
+	}
+
+	#banner {
+		top: -15px;
+	}
+}
+
+@import 'mff/navbar';
+@import 'mff/footer';
+@import 'mff/section';
+@import 'mff/topic';
+@import 'mff/category';
+@import 'mff/categories';
+@import 'mff/buttons';
+@import 'mff/attachedicons';

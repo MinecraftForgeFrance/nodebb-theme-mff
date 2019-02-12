@@ -1,0 +1,536 @@
+body {
+    background-color: #07111d;
+    color: #bebfc1;
+
+    // dark banner
+    #banner {
+        background: url(/plugins/nodebb-theme-mff/images/background-dark.jpg);
+    }
+    
+    // links
+    a {
+        color: #557a97;
+        &:hover {
+            color: #3b5569;
+        }
+    }
+
+    // categories titles
+    .categories-title {
+        color: #b5b5b5;
+    }
+
+    .category>ul>li:not(.unread) h2 a {
+        color: #dbdbdb;
+    }
+
+    .well {
+        background-color: #01243c;
+        border: 1px solid #2f5066;
+    }
+
+    // shoutbox
+    .shoutbox {
+        .panel-default {
+            border-color: #2f5066;
+
+            >.panel-heading {
+                color: #bebfc1;
+                background-color: #01243c;
+                border-color: #01243c;
+            }
+
+        }
+        .panel {
+            background-color: #0a2a40;
+            border: 1px solid #07111d;
+        }
+
+        .well {
+            background-color: #07111d;
+        }
+
+        .shoutbox-content-overlay {
+            background-color: #000000;
+        }
+        
+        .shoutbox-content-overlay.active {
+            background-color: #000000;
+        }
+
+        .shoutbox-content-overlay-message a {
+            color: #eaeaea;
+
+            &:hover {
+                color: #f7f7f7;
+            }
+        }
+
+        .form-control {
+            background-color: #07111d;
+            border: 1px solid #2f5066;
+        }
+    }
+
+    // topic
+    .topic {
+
+        .content {
+            background-color: #1c3247;
+            border-top: 1px solid #2f5066;
+            border-left: 1px solid #2f5066;
+            border-right: 1px solid #2f5066;
+
+            &:before {
+                color: #1c3247;
+                text-shadow: 0 -1px 0 #2f5066;
+            }
+
+            // code bloc
+            .hljs {
+                background: #07111d;
+            }
+
+            // table
+            .table-bordered {
+                border: 1px solid #2f5066;
+            }
+
+            .table-striped>tbody>tr:nth-of-type(odd) {
+                background-color: #20394f;
+            }
+
+            thead {
+                background-color: #0a2a40;
+            }
+        }
+
+        .post-footer {
+            background-color: #1c3247;
+            border-bottom: 1px solid #2f5066;
+            border-left: 1px solid #2f5066;
+            border-right: 1px solid #2f5066;
+        }
+
+        .posts {
+            [component="post"].isSolved {
+                .content {
+                    background-color: #1c473f;
+                    border-top: 1px solid #3b8d7e;
+                    border-left: 1px solid #3b8d7e;
+                    border-right: 1px solid #3b8d7e;
+
+                    &:before {
+                        color: #1c473f;
+                        text-shadow: 0 -1px 0 #3b8d7e;
+                    }
+                }
+                .post-footer {
+                    background-color: #1c473f;
+                    border-bottom: 1px solid #3b8d7e;
+                    border-left: 1px solid #3b8d7e;
+                    border-right: 1px solid #3b8d7e;
+                }
+            }
+        }
+    }
+    // modal
+
+    .modal-header {
+        background: #01243c;
+        border-bottom: 1px solid #0a2a40;
+    }
+
+    .modal-content {
+        background-color: #07111d;
+        border: 1px solid #0a2a40;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #0e3048;
+    }
+
+    @media (min-width: 768px) {
+        .modal-content {
+            -webkit-box-shadow: 0 5px 15px rgb(10, 42, 64);
+            box-shadow: 0 5px 15px rgb(10, 42, 64);
+        }
+    }
+
+    .chat-modal .chat-content li.chat-message .chat-user a, .expanded-chat .chat-content li.chat-message .chat-user a {
+        color: #557a97;
+    }
+
+    .close {
+        color: #e7e7e7;
+        -moz-opacity: .5;
+        opacity: .5;
+    }
+
+    .close:focus, .close:hover {
+        color: #fff;
+    }
+
+    .chat-modal [component="chat/composer"] [component="chat/input"], .chats-full [component="chat/composer"] [component="chat/input"] {
+        border: 1px solid #0a2a40;
+    }
+
+    .chat-modal .chat-content li.chat-message[data-break=true], .expanded-chat .chat-content li.chat-message[data-break=true] {
+        border-top: 1px solid #2f5066;
+    }
+
+    // hr
+
+    hr {
+        border-top: 1px solid #2f5066;
+    }
+
+    // pannel groups
+
+    .panel-default {
+        border-color: #2f5066;
+    }
+
+    .panel {
+        margin-bottom: 20px;
+        background-color: #0a2a40;
+        border: 1px solid transparent;
+        border-radius: 0;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+        box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    }
+
+    .panel-default>.panel-heading {
+        color: #d2d2d2;
+        background-color: #07111d;
+        border-color: #2f5066;
+    }
+
+    // form control
+
+    .form-control {
+        background-color: #07111d;
+        border: 1px solid #2f5066;
+        color: #ccc0bc;
+    }       
+
+    // inputs
+
+    .input-group .form-control {
+        background-color: #07111d;
+        border: 1px solid #2f5066;
+        color: #ccc0bc;
+    }
+
+    .input-group-addon {
+        color: #fff;
+        background-color: #01243c;
+        border-color: #2f5066;
+        border: 1px solid #2f5066;
+    }
+
+    // navs
+
+    .breadcrumb>.active {
+        color: #d2d2d2;
+    }
+
+    .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+        color: #fff;
+        background-color: #2f5066;
+    }
+
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color: #2f5066;
+        color: #e2e2e2;
+    }
+
+    .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+        background-color: #2f5066;
+        color: #ccc;
+    }
+
+    .navbar-default .navbar-nav>.open>label, .navbar-default .navbar-nav>.open>label:focus, .navbar-default .navbar-nav>.open>label:hover {
+        background-color: #2f5066;
+        color: #555;
+    }
+
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #fefefe;
+        background-color: #1c3247;
+        border: 1px solid #2f5066;
+        border-bottom-color: transparent;
+        cursor: default;
+    }
+
+    .nav>li>a:focus, .nav>li>a:hover {
+        background-color: #2f5066;
+        color: #e2e2e2;
+    }
+
+    .nav-tabs>li>a:hover {
+        border-color: #3f6e8d;
+    }
+
+    // btns
+
+    .btn-default {
+        background-color: #01243c;
+        border: 1px solid #2f5066;
+        color: #ccc0bc;    
+    }
+
+    .btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open>.dropdown-toggle.btn-default {
+        color: #ccc;
+        background-color: #2f5066;
+    }
+
+    // msg composer
+
+    .composer {
+        background: #1c3247;
+    }
+
+    .composer .form-control {
+        color: #bebfc1;
+        background: #1c3247;
+    }
+
+    .composer .formatting-bar .formatting-group li {
+        color: #d2d2d2;
+    }
+
+    .composer .formatting-bar .formatting-group li:focus, .composer .formatting-bar .formatting-group li:hover {
+        background-color: #2f5066;
+    }
+
+    .composer .write {
+        background-color: #07111d;
+    }
+
+    // text header
+
+    .text-header {
+        background-color: #0a2a40;
+        border: 1px solid #2f5066;
+    }
+
+    // tags
+
+    .category>ul>li .tag-list .tag {
+        background: #1e374b;
+    }
+
+    // profile
+
+    .posts-list .posts-list-item .topic-title {
+        color: #557a97;
+    }
+
+    .account .profile .profile-meta strong {
+        color: #557a97;
+    }
+
+    .account>.row .fullname {
+        color: #557a97;
+    }
+
+    .account .cover .avatar-wrapper {
+        border: 4px solid #07111d;
+    }
+
+    // chat
+
+    .chats-list {
+        border-top: 1px solid #2f5066;
+    }
+
+    .chats-list>li {
+        border-color: #2f5066;
+    }
+
+    .bg-info {
+        background-color: #0a2a40;
+    }
+
+    .chat-modal [component="chat/header"], .chats-full [component="chat/header"] {
+        background-color: #01243c;
+    }
+
+    .chat-modal [component="chat/nav-wrapper"] .chat-search input, .chats-full [component="chat/nav-wrapper"] .chat-search input {
+        background-color: #07111d;
+    }
+
+    // dropdown
+
+    .dropdown-menu {
+        background-color: #07111d;
+        border: 1px solid #2f5066;
+        border-radius: 0;
+        -webkit-box-shadow: 0 6px 12px rgba(47, 80, 102, 0.43);
+        box-shadow: 0 6px 12px rgba(47, 80, 102, 0.43);
+    }
+
+    .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+        color: #e0e0e0;
+        background-color: #082031;
+    }
+
+    .header .chat-list, .slideout-menu .chat-list {
+        color: #bebfc1;
+    }
+
+    .header .chat-list>li:hover, .slideout-menu .chat-list>li:hover {
+        background: #0a2a40;
+    }
+
+    .dropdown-menu>li>a {
+        color: #8a8a8a;
+    }
+
+    .dropdown-menu .divider {
+        background-color: #2f5066;
+    }
+
+    .dropdown-menu>li>form>.btn-link, .dropdown-menu>li>form>button {
+        color: #557a97;
+    }
+
+    .dropdown-menu>li>form>.btn-link:focus, .dropdown-menu>li>form>.btn-link:hover, .dropdown-menu>li>form>button:focus, .dropdown-menu>li>form>button:hover {
+        color: #e0e0e0;
+        background-color: #082031;
+    }
+
+    // list
+
+    .list-group-item {
+        color: #bebfc1;
+        background-color: #0a2a40;
+        border: 1px solid #07111d;
+    }
+
+    a.list-group-item:focus, a.list-group-item:hover {
+        color: #e0e0e0;
+        background-color: #082031;
+    }
+
+    // admonition
+
+    .admonition p {
+        padding: 0 1rem;
+        color: #01243c;
+    }
+
+    // panel
+
+    .panel-footer {
+        background-color: #0a2a40;
+        border-top: 1px solid #2f5066;
+    }
+
+    .panel-primary>.panel-heading {
+        color: #fff;
+        background-color: #0a2a40;
+        border-color: #2f5066;
+    }
+
+    .panel>.panel-body+.table, .panel>.panel-body+.table-responsive, .panel>.table+.panel-body, .panel>.table-responsive+.panel-body {
+        border-top: 1px solid #2f5066;
+    }
+
+    // table
+
+    .table-hover>tbody>tr {
+        background-color: #0a2a40;
+    }
+
+    .table-hover>tbody>tr:hover {
+        background-color: #082031;
+    }
+
+    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+        border-top: 1px solid #2f5066;
+    }
+
+    .table>thead>tr>th {
+        border-bottom: 2px solid #2f5066;
+    }
+
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        background-color: #0a2a40;
+    }
+
+    .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+        border: 1px solid #2f5066;
+    }
+
+    // textarea
+
+    textarea {
+        background-color: #07111d;
+        border: 1px solid #2f5066!important;
+    }
+
+    // re-captcha
+
+    .rc-anchor-light.rc-anchor-normal {
+        border: 1px solid #2f5066;
+    }
+    .rc-anchor-light {
+        background: #03263e;
+        color: #fdfdfd;
+    }
+    .rc-anchor-logo-text {
+        color: #fff;
+    }
+    .rc-anchor-pt a:link, .rc-anchor-pt a:visited {
+        color: #c2c2c2;
+    }
+
+    // cookies
+
+    .cookie-consent {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    // alert
+
+    .alert-warning {
+        background-color: #07111d;
+        color: #7dbae8!important;
+    }
+
+    // code
+
+    code {
+        color: #ad0001;
+        background-color: #07111d;
+    }
+
+    // forge-events page
+
+    .panel {
+        background-color: transparent;
+    }
+
+    .panel-heading a:hover {
+        color: #c1c1c1;
+    }
+
+    .panel-default {
+        border-color: #2f5066;
+    }
+
+    .panel-default>.panel-heading {
+        color: #dcdcdc;
+        border-color: #2f5066;
+        background-color: #0a2a40;
+    }
+
+    .panel-default>.panel-heading+.panel-collapse>.panel-body {
+        border-top-color: #2f5066;
+    }
+
+
+}
+

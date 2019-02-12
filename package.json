@@ -1,0 +1,38 @@
+{
+    "name": "nodebb-theme-mff",
+    "version": "4.1.0",
+    "nbbpm": {
+        "compatibility": "^1.11.0"
+    },
+    "description": "Minecraft Forge France V4.0 theme for NodeBB",
+    "homepage": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff#readme",
+    "main": "theme.less",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MinecraftForgeFrance/nodebb-theme-mff.git"
+    },
+    "keywords": [
+        "nodebb",
+        "theme",
+        "forum",
+        "bootstrap",
+        "responsive"
+    ],
+    "contributors": [
+        {
+            "name": "Woryk"
+        },
+        {
+            "name": "Robin Biechy",
+            "email": "robin4002@gmail.com",
+            "url": "https://github.com/robin4002"
+        }
+    ],
+    "license": "BSD-2-Clause",
+    "bugs": {
+        "url": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff/issues"
+    },
+    "dependencies": {
+        "striptags": "^3.1.1"
+    }
+}
