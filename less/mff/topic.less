@@ -6,16 +6,28 @@
         border-top: 1px solid #DDD;
         border-left: 1px solid #DDD;
         border-right: 1px solid #DDD;
+        position: relative;
+        overflow: visible;
+
+        &:before, &:after {
+            position: absolute;
+            content: ' ';
+            width: 0;
+            height: 0;
+            border-style: solid;
+            bottom: 100%;
+        }
 
         &:before {
-            font-family: FontAwesome;
-            content: "\f0de";
-            color: #f9f9f9;
-            position: absolute;
-            top: 25px;
-            left: 60px;
-            font-size: 75px;
-            text-shadow: 0px -1px 0px #DDD;
+            border-width: 0 20px 20px 20px;
+            border-color: transparent transparent #DDD transparent;
+            left: 50px;
+        }
+
+        &:after {
+            border-width: 0 19px 18px 19px;
+            border-color: transparent transparent #f9f9f9 transparent;
+            left: 51px;
         }
     }
     .post-footer {
@@ -45,12 +57,15 @@
     .posts [component=post].isSolved {
         border: none;
         padding: 0;
+
         .content {
             background-color: #dff5df;
-            &:before {
-                color: #dff5df;
+
+            &:after {
+                border-color: transparent transparent #dff5df transparent;
             }
         }
+
         .post-footer {
             background-color: #dff5df;
         }
@@ -60,12 +75,6 @@
     @media (max-width: @screen-sm-max) {
         .content {
             padding: 5px;
-
-            &:before {
-                top: 13px;
-                left: 40px;
-                font-size: 50px;
-            }
         }
         .post-signature {
             margin-left: 5px;
