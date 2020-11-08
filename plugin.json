@@ -2,7 +2,6 @@
 	"id": "nodebb-theme-mff",
 	"library": "library.js",
 	"hooks": [
-		{ "hook": "filter:teasers.get", "method": "getTeasers" },
 		{ "hook": "filter:widgets.getAreas", "method": "defineWidgetAreas" },
 		{ "hook": "filter:config.get", "method": "getThemeConfig" },
 		{ "hook": "static:app.load", "method": "init" },
@@ -15,11 +14,10 @@
 		{ "hook": "filter:meta.getLinkTags", "method": "getLinkTags" }
 	],
 	"scripts": [
-		"lib/persona.js",
-        "lib/mff.js",
-		"lib/modules/nprogress.js",
-		"lib/modules/autohidingnavbar.min.js",
-		"lib/modules/quickreply.js"
+        "public/mff.js",
+		"public/persona.js",
+		"public/modules/autohidingnavbar.min.js",
+		"public/modules/quickreply.js"
 	],
 	"modules": {
 		"pulling.js": "node_modules/pulling/build/pulling-drawer.js"
@@ -30,7 +28,7 @@
 		"styles": "static/styles"
 	},
 	"acpScripts": [
-		"lib/admin.js"
+		"public/admin.js"
 	],
 	"languages": "languages"
 }

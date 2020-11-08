@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const striptags = require('striptags');
 const async = require.main.require('async');
 const winston = require.main.require('winston');
 const meta = require.main.require('./src/meta');
@@ -12,7 +11,7 @@ const MFFTheme = {
     init(params, callback) {
         const app = params.router;
         const middleware = params.middleware;
-    
+
         app.get('/admin/plugins/persona', middleware.admin.buildHeader, renderAdmin);
         app.get('/api/admin/plugins/persona', renderAdmin);
 
@@ -28,25 +27,16 @@ const MFFTheme = {
                 winston.warn('[theme/mff] Unable to compile dark theme', err);
             }
         });
-    
+
         callback();
     },
     addAdminNavigation(header, callback) {
         header.plugins.push({
             route: '/plugins/persona',
             icon: 'fa-paint-brush',
-            name: 'Persona Theme'
+            name: 'MFF Theme (persona based)'
         });
-    
         callback(null, header);
-    },
-    getTeasers(data, callback) {
-        data.teasers.forEach(function(teaser) {
-            if (teaser && teaser.content) {
-                teaser.content = striptags(teaser.content, ['img']);
-            }
-        });
-        callback(null, data);
     },
     defineWidgetAreas(areas, callback) {
         areas = areas.concat([
@@ -96,7 +86,6 @@ const MFFTheme = {
                 location: "footer"
             }
         ]);
-    
         callback(null, areas);
     },
     getThemeConfig(config, callback) {
@@ -113,7 +102,7 @@ const MFFTheme = {
                 if (err) {
                     return callback(err);
                 }
-    
+
                 data.templateData.loggedInUser = userdata;
                 callback(null, data);
             });
@@ -136,12 +125,12 @@ const MFFTheme = {
             name: 'Dark',
             value: 'dark'
         }];
-    
+
         let options = '';
         availableSkins.forEach(function(skin) {
             options += `<option value="${skin.value}" ${(data.settings.mffThemeSkin === skin.value) ? 'selected' : ''}>${skin.name}</option>`;
         });
-    
+
         data.customSettings.push({
             title: 'Paramètre du thème',
             content: `
@@ -152,7 +141,6 @@ const MFFTheme = {
                 </select>
             </div>`
         });
-    
         callback(null, data);
     },
     saveUserSettings(data) {

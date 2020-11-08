@@ -1,3 +1,4 @@
+<!-- MFF add: section display. This partial don't exist in Persona -->
 <li component="categories/category" data-cid="{../cid}" data-numRecentReplies="1" class="row clearfix">
 	<meta itemprop="name" content="{../name}">
 
