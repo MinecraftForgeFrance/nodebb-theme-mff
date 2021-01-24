@@ -72,6 +72,12 @@ body {
         }
     }
 
+    .topic-list-header {
+        background-color: #07111d;
+        border-top: 1px solid #2f5066;
+        border-bottom: 1px solid #2f5066;
+    }
+
     // topic
     .topic {
 
@@ -130,6 +136,10 @@ body {
         .posts {
             [component="post"] {
                 border-bottom: 1px solid #2f5066;
+
+                &[data-index="0"] {
+                    border-bottom: 5px solid #2f5066;
+                }
 
                 .isSolved {
                     .content {

@@ -16,9 +16,9 @@
 		</div>
 		<div class="section-contents collapse in" id="collapse-section-{../cid}">
 			<ul class="categories" itemscope itemtype="http://www.schema.org/ItemList">
-                <!-- BEGIN children -->
+			{{{each categories.children}}}
                 <!-- IMPORT partials/categories/item.tpl -->
-                <!-- END children -->
+			{{{end}}}
             </ul>
 		</div>
 	</div>

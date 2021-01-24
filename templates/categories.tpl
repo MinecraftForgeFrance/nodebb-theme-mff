@@ -9,13 +9,13 @@
 		<h1 class="categories-title">Minecraft Forge France</h1>
 		<ul class="categories" itemscope itemtype="http://www.schema.org/ItemList">
 			<!-- MFF change: Section display -->
-			<!-- BEGIN categories -->
-			<!-- IF ../isSection -->
+			{{{each categories}}}
+			<!-- IF categories.isSection -->
 			<!-- IMPORT partials/categories/section_item.tpl -->
 			<!-- ELSE -->
 			<!-- IMPORT partials/categories/item.tpl -->
-			<!-- ENDIF ../isSection -->
-			<!-- END categories -->
+			<!-- ENDIF categories.isSection -->
+			{{{end}}}
 			<!-- MFF change: Section display END -->
 		</ul>
 	</div>
