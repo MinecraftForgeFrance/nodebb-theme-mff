@@ -2,7 +2,7 @@
 
 /*globals $, app, ajaxify, socket*/
 
-define('persona/quickreply', ['components', 'composer/autocomplete'], function(components, autocomplete) {
+define('persona/quickreply', ['components', 'composer/autocomplete', 'api'], function(components, autocomplete) {
 	var QuickReply = {};
 
 	QuickReply.init = function() {
@@ -37,7 +37,7 @@ define('persona/quickreply', ['components', 'composer/autocomplete'], function(c
 				content: replyMsg
 			};
 
-			socket.emit('posts.reply', replyData, function(err, data) {
+			api.post(`/topics/${ajaxify.data.tid}`, replyData, function (err, data) {
 				if (err) {
 					return app.alertError(err.message);
 				}

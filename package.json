@@ -6,7 +6,7 @@
     },
     "description": "Minecraft Forge France V4.0 theme for NodeBB",
     "homepage": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff#readme",
-    "main": "theme.less",
+    "main": "library.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/MinecraftForgeFrance/nodebb-theme-mff.git"
