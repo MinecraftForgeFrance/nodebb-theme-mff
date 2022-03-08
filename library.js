@@ -1,123 +1,92 @@
 'use strict';
 
 const fs = require('fs');
-const async = require.main.require('async');
 const winston = require.main.require('winston');
 const meta = require.main.require('./src/meta');
 const user = require.main.require('./src/user');
 const minifier = require.main.require('./src/meta/minifier');
 
 const MFFTheme = {
-    init(params, callback) {
-        const app = params.router;
-        const middleware = params.middleware;
+    async init(params) {
+        const { router, middleware } = params;
 
-        app.get('/admin/plugins/persona', middleware.admin.buildHeader, renderAdmin);
-        app.get('/api/admin/plugins/persona', renderAdmin);
-
-        async.waterfall([
-            function (next) {
-                minifier.css.bundle('@import "dark-skin.less";', [ __dirname + '/less/mff'], true, true, next)
-            },
-            function (bundle, next) {
-                fs.writeFile(__dirname + '/static/styles/dark-skin.css', bundle.code, next);
-            }
-        ], function(err) {
-            if (err) {
-                winston.warn('[theme/mff] Unable to compile dark theme', err);
-            }
+        const routeHelpers = require.main.require('./src/routes/helpers');
+        routeHelpers.setupAdminPageRoute(router, '/admin/plugins/persona', middleware, [], (req, res) => {
+            res.render('admin/plugins/persona', {});
         });
 
-        callback();
+        try {
+            const bundle = await minifier.css.bundle('@import "dark-skin.less";', [ __dirname + '/less/mff'], true, true);
+            fs.writeFileSync(__dirname + '/static/styles/dark-skin.css', bundle.code);
+        }
+        catch (err) {
+            winston.warn('[theme/mff] Unable to compile dark theme', err);
+        }
     },
-    addAdminNavigation(header, callback) {
+    async addAdminNavigation(header) {
         header.plugins.push({
             route: '/plugins/persona',
             icon: 'fa-paint-brush',
             name: 'MFF Theme (persona based)'
         });
-        callback(null, header);
+        return header;
     },
-    defineWidgetAreas(areas, callback) {
+    async defineWidgetAreas(areas) {
+        const locations = ['header', 'sidebar', 'footer'];
+        const templates = [
+            'categories.tpl', 'category.tpl', 'topic.tpl', 'users.tpl',
+            'unread.tpl', 'recent.tpl', 'popular.tpl', 'top.tpl', 'tags.tpl', 'tag.tpl',
+            'login.tpl', 'register.tpl',
+        ];
+        function capitalizeFirst(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+        templates.forEach((template) => {
+            locations.forEach((location) => {
+                areas.push({
+                    name: `${capitalizeFirst(template.split('.')[0])} ${capitalizeFirst(location)}`,
+                    template: template,
+                    location: location,
+                });
+            });
+        });
+
         areas = areas.concat([
             {
-                name: "Categories Sidebar",
-                template: "categories.tpl",
-                location: "sidebar"
+                name: 'Account Header',
+                template: 'account/profile.tpl',
+                location: 'header',
             },
-            {
-                name: "Category Sidebar",
-                template: "category.tpl",
-                location: "sidebar"
-            },
-            {
-                name: "Topic Sidebar",
-                template: "topic.tpl",
-                location: "sidebar"
-            },
-            {
-                name: "Categories Header",
-                template: "categories.tpl",
-                location: "header"
-            },
-            {
-                name: "Category Header",
-                template: "category.tpl",
-                location: "header"
-            },
-            {
-                name: "Topic Header",
-                template: "topic.tpl",
-                location: "header"
-            },
-            {
-                name: "Categories Footer",
-                template: "categories.tpl",
-                location: "footer"
-            },
-            {
-                name: "Category Footer",
-                template: "category.tpl",
-                location: "footer"
-            },
-            {
-                name: "Topic Footer",
-                template: "topic.tpl",
-                location: "footer"
-            }
         ]);
-        callback(null, areas);
+        return areas;
     },
-    getThemeConfig(config, callback) {
-        meta.settings.get('persona', function(err, settings) {
-            config.hideSubCategories = settings.hideSubCategories === 'on';
-            config.hideCategoryLastPost = settings.hideCategoryLastPost === 'on';
-            config.enableQuickReply = settings.enableQuickReply === 'on';
-            callback(null, config);
-        });
+    async getThemeConfig(config) {
+        const settings = await meta.settings.get('persona');
+        config.hideSubCategories = settings.hideSubCategories === 'on';
+        config.hideCategoryLastPost = settings.hideCategoryLastPost === 'on';
+        config.enableQuickReply = settings.enableQuickReply === 'on';
+        return config;
     },
-    addUserToTopic(data, callback) {
-        if (data.req.user) {
-            user.getUserData(data.req.user.uid, function(err, userdata) {
-                if (err) {
-                    return callback(err);
-                }
-
-                data.templateData.loggedInUser = userdata;
-                callback(null, data);
-            });
-        } else {
-            data.templateData.loggedInUser =  {
-                uid: 0,
-                username: '[[global:guest]]',
-                picture: user.getDefaultAvatar(),
-                'icon:text': '?',
-                'icon:bgColor': '#aaa',
-            };
-            callback(null, data);
+    async addUserToTopic(data) {
+        const settings = await meta.settings.get('persona');
+        if (settings.enableQuickReply === 'on') {
+            if (data.req.user) {
+                const userData = await user.getUserData(data.req.user.uid);
+                data.templateData.loggedInUser = userData;
+            } else {
+                data.templateData.loggedInUser = {
+                    uid: 0,
+                    username: '[[global:guest]]',
+                    picture: user.getDefaultAvatar(),
+                    'icon:text': '?',
+                    'icon:bgColor': '#aaa',
+                };
+            }
         }
+
+        return data;
     },
-    addUserSettings(data, callback) {
+    async addUserSettings(data) {
         let availableSkins = [{
             name: 'Light',
             value: 'light'
@@ -141,45 +110,32 @@ const MFFTheme = {
                 </select>
             </div>`
         });
-        callback(null, data);
+        return data;
     },
     saveUserSettings(data) {
         user.setUserField(data.uid, "mffthemeskin", data.settings.mffThemeSkin);
     },
-    getUserSettings(data, callback) {
-        user.getUserField(data.uid, "mffthemeskin", (err, mffSkin) => {
-            if(!err && mffSkin) {
-                data.settings.mffThemeSkin = mffSkin;
-            } else {
-                data.settings.mffThemeSkin = "light";
-            }
-            callback(null, data);
-        });
+    async getUserSettings(data) {
+        const mffSkin = await user.getUserField(data.uid, "mffthemeskin");
+        data.settings.mffThemeSkin = mffSkin || "light";
+        return data;
     },
-    appendUserFields(data, callback) {
+    appendUserFields(data) {
         data.whitelist.push("mffthemeskin");
-        callback(null, data);
+        return data;
     },
-    getLinkTags(data, callback) {
-        if(data.req.uid) {
-            user.getUserField(data.req.uid, "mffthemeskin", (err, mffSkin) => {
-                if(!err && mffSkin === "dark") {
-                    data.links.push({
-                        rel: 'stylesheet',
-                        href: '/plugins/nodebb-theme-mff/styles/dark-skin.css'
-                    });
-                }
-                callback(null, data);
-            });
+    async getLinkTags(data) {
+        if (data.req.uid) {
+            const mffSkin = await user.getUserField(data.req.uid, "mffthemeskin");
+            if(mffSkin === "dark") {
+                data.links.push({
+                    rel: 'stylesheet',
+                    href: '/plugins/nodebb-theme-mff/styles/dark-skin.css'
+                });
+            }
         }
-        else {
-            callback(null, data);
-        }
+        return data;
     }
 };
-
-function renderAdmin(req, res, next) {
-	res.render('admin/plugins/persona', {});
-}
 
 module.exports = MFFTheme;

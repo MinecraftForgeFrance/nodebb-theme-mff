@@ -7,23 +7,23 @@
 
 // Banner
 #banner {
-	background: url(/plugins/nodebb-theme-mff/images/background.jpg);
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 200px;
-	background-origin: content-box;
-	width: 100%;
-	top: -20px;
-	position: relative;
-	left: auto;
-	right: 0;
+    background: url(/plugins/nodebb-theme-mff/images/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 200px;
+    background-origin: content-box;
+    width: 100%;
+    top: -20px;
+    position: relative;
+    left: auto;
+    right: 0;
 }
 
 // make the forum larger on desktop
 @media (min-width: 1600px) {
     .container {
         width: 70.00%;
-	}
+    }
 }
 @import 'mff/navbar';
 @import 'mff/footer';
@@ -33,3 +33,16 @@
 @import 'mff/categories';
 @import 'mff/buttons';
 @import 'mff/attachedicons';
+
+// Persona .fab enter in conflict with font awesome branding icon. Override to default.
+i.fab {
+	box-shadow: none;
+
+	background-color: initial;
+	border: none;
+	cursor: pointer;
+	line-height: initial;
+	vertical-align: initial;
+	height: auto;
+	width: auto;
+}

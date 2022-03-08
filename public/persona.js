@@ -1,59 +1,92 @@
-"use strict";
-
-/*globals ajaxify, config, utils, app, socket, window, document, $*/
+'use strict';
 
 $(document).ready(function () {
 	setupNProgress();
 	setupEditedByIcon();
 	setupQuickReply();
 	configureNavbarHiding();
-	fixHeaderPadding();
+	updatePanelOffset();
 
 	$(window).on('resize', utils.debounce(configureNavbarHiding, 200));
-	$(window).on('resize', fixHeaderPadding);
-
-	$(window).on('action:app.loggedIn', function () {
-		setupMobileMenu();
-	});
+	$(window).on('resize', updatePanelOffset);
 
 	$(window).on('action:app.load', function () {
 		setupTaskbar();
 		setupMobileMenu();
 	});
 
-	function fixHeaderPadding() {
+	function updatePanelOffset() {
 		var env = utils.findBootstrapEnvironment();
-		if (env === 'sm' || env === 'xs' || env === 'md') {
-			$('#panel').css('padding-top', $('#header-menu').outerHeight(true));
-		} else {
-			$('#panel').css('padding-top', $('#header-menu').outerHeight(true) - 70);
+		const headerEl = document.getElementById('header-menu');
+
+		if (!headerEl) {
+			return;
 		}
+
+		const headerRect = headerEl.getBoundingClientRect();
+		const headerStyle = window.getComputedStyle(headerEl);
+
+		let offset =
+			headerRect.y + headerRect.height +
+			(parseInt(headerStyle.marginTop, 10) || 0) +
+			(parseInt(headerStyle.marginBottom, 10) || 0);
+
+		// body element itself introduces a hardcoded 70px padding on desktop resolution
+		if (env === 'lg') {
+			offset -= 70;
+		}
+
+		offset = Math.max(0, offset);
+		document.documentElement.style.setProperty('--panel-offset', `${offset}px`);
 	}
 
+	var lastBSEnv = '';
 	function configureNavbarHiding() {
 		if (!$.fn.autoHidingNavbar) {
 			return;
 		}
 
-		var navbarEl = $(".navbar-fixed-top");
-		navbarEl.autoHidingNavbar('destroy');
-		navbarEl.css('top', '');
+		require(['hooks'], (hooks) => {
+			var env = utils.findBootstrapEnvironment();
+			// if env didn't change don't destroy and recreate
+			if (env === lastBSEnv) {
+				return;
+			}
+			lastBSEnv = env;
+			var navbarEl = $('.navbar-fixed-top');
+			navbarEl.autoHidingNavbar('destroy').removeData('plugin_autoHidingNavbar');
+			navbarEl.css('top', '');
 
-		var env = utils.findBootstrapEnvironment();
-		if (env === 'xs' || env === 'sm') {
-			navbarEl.autoHidingNavbar({
-				showOnBottom: false,
+			hooks.fire('filter:persona.configureNavbarHiding', {
+				resizeEnvs: ['xs', 'sm'],
+			}).then(({ resizeEnvs }) => {
+				if (resizeEnvs.includes(env)) {
+					navbarEl.autoHidingNavbar({
+						showOnBottom: false,
+					});
+				}
+
+				function fixTopCss(topValue) {
+					if (ajaxify.data.template.topic) {
+						$('.topic .topic-header').css({ top: topValue });
+					} else {
+						var topicListHeader = $('.topic-list-header');
+						if (topicListHeader.length) {
+							topicListHeader.css({ top: topValue });
+						}
+					}
+				}
+
+				navbarEl.off('show.autoHidingNavbar')
+					.on('show.autoHidingNavbar', function () {
+						fixTopCss('');
+					});
+
+				navbarEl.off('hide.autoHidingNavbar')
+					.on('hide.autoHidingNavbar', function () {
+						fixTopCss('0px');
+					});
 			});
-		}
-		navbarEl.on('show.autoHidingNavbar', function() {
-			if (ajaxify.data.template.topic) {
-				$('.topic .topic-header').css({top: '' });
-			}
-		});
-		navbarEl.on('hide.autoHidingNavbar', function() {
-			if (ajaxify.data.template.topic) {
-				$('.topic .topic-header').css('top', '0px');
-			}
 		});
 	}
 
@@ -79,24 +112,26 @@ $(document).ready(function () {
 	}
 
 	function setupTaskbar() {
-		$(window).on('filter:taskbar.push', function (ev, data) {
-			data.options.className = 'taskbar-' + data.module;
-			if (data.module === 'composer') {
-				data.options.icon = 'fa-commenting-o';
-			} else if (data.module === 'chat') {
-				if (data.element.length && !data.element.hasClass('active')) {
-					increaseChatCount(data.element);
+		require(['hooks'], (hooks) => {
+			hooks.on('filter:taskbar.push', (data) => {
+				data.options.className = 'taskbar-' + data.module;
+				if (data.module === 'composer') {
+					data.options.icon = 'fa-commenting-o';
+				} else if (data.module === 'chat') {
+					if (data.element.length && !data.element.hasClass('active')) {
+						increaseChatCount(data.element);
+					}
 				}
-			}
-		});
-		$(window).on('action:taskbar.pushed', function (ev, data) {
-			if (data.module === 'chat') {
-				createChatIcon(data);
-				var elData = data.element.data();
-				if (elData && elData.options && !elData.options.isSelf) {
-					increaseChatCount(data.element);
+			});
+			hooks.on('action:taskbar.pushed', (data) => {
+				if (data.module === 'chat') {
+					createChatIcon(data);
+					var elData = data.element.data();
+					if (elData && elData.options && !elData.options.isSelf) {
+						increaseChatCount(data.element);
+					}
 				}
-			}
+			});
 		});
 
 		socket.on('event:chats.markedAsRead', function (data) {
@@ -135,7 +170,8 @@ $(document).ready(function () {
 	function setupEditedByIcon() {
 		function activateEditedTooltips() {
 			$('[data-pid] [component="post/editor"]').each(function () {
-				var el = $(this), icon;
+				var el = $(this);
+				var icon;
 
 				if (!el.attr('data-editor')) {
 					return;
@@ -164,14 +200,14 @@ $(document).ready(function () {
 			return;
 		}
 
-		require(['pulling', 'storage'], function (Pulling, Storage) {
+		require(['pulling', 'storage', 'alerts', 'search'], function (Pulling, Storage, alerts, search) {
 			if (!Pulling) {
 				return;
 			}
 
 			// initialization
 
-			var chatMenuVisible = !config.disableChat && app.user && parseInt(app.user.uid, 10);
+			var chatMenuVisible = app.user && parseInt(app.user.uid, 10);
 			var swapped = !!Storage.getItem('persona:menus:legacy-layout');
 			var margin = window.innerWidth;
 
@@ -224,8 +260,9 @@ $(document).ready(function () {
 
 			$(window).on('resize action:ajaxify.start', function () {
 				navSlideout.close();
-				if (chatsSlideout) { chatsSlideout.close(); }
-				$('.account .cover').css('top', $('[component="navbar"]').height());
+				if (chatsSlideout) {
+					chatsSlideout.close();
+				}
 			});
 
 			navSlideout
@@ -252,14 +289,6 @@ $(document).ready(function () {
 				navSlideout.enable().toggle();
 			});
 
-			function loadNotifications() {
-				require(['notifications'], function (notifications) {
-					notifications.loadNotifications($('#menu [data-section="notifications"] ul'));
-				});
-			}
-
-			navSlideout.on('opened', loadNotifications);
-
 			if (chatMenuVisible) {
 				navSlideout.on('beforeopen', function () {
 					chatsSlideout.close();
@@ -269,22 +298,29 @@ $(document).ready(function () {
 				});
 			}
 
-			$('#menu [data-section="navigation"] ul').html($('#main-nav').html() + ($('#search-menu').html() || '') + ($('#logged-out-menu').html() || ''));
+			$('#menu [data-section="navigation"] ul').html(
+				$('#main-nav').html() +
+				($('#logged-out-menu').html() || '')
+			);
 
-			$('#user-control-list').children().clone(true, true).appendTo($('#menu [data-section="profile"] ul'));
+			$('#user-control-list').children().clone(true, true).appendTo($('#chats-menu [data-section="profile"] ul'));
 
 			socket.on('event:user_status_change', function (data) {
 				if (parseInt(data.uid, 10) === app.user.uid) {
-					app.updateUserStatus($('#menu [component="user/status"]'), data.status);
+					app.updateUserStatus($('#chats-menu [component="user/status"]'), data.status);
 					navSlideout.close();
 				}
 			});
 
-			// right slideout chats menu
+			// right slideout notifications & chats menu
 
-			function loadChats() {
-				require(['chat'], function (chat) {
-					chat.loadChatsDropdown($('#chats-menu .chat-list'));
+			function loadNotificationsAndChats() {
+				require(['notifications', 'chat'], function (notifications, chat) {
+					const notifList = $('#chats-menu [data-section="notifications"] ul');
+					notifications.loadNotifications(notifList, function () {
+						notifList.find('.deco-none').removeClass('deco-none');
+						chat.loadChatsDropdown($('#chats-menu .chat-list'));
+					});
 				});
 			}
 
@@ -298,7 +334,7 @@ $(document).ready(function () {
 				});
 
 				chatsSlideout
-					.on('opened', loadChats)
+					.on('opened', loadNotificationsAndChats)
 					.on('beforeopen', function () {
 						navSlideout.close().disable();
 					})
@@ -306,6 +342,37 @@ $(document).ready(function () {
 						navSlideout.enable();
 					});
 			}
+
+			const searchInputEl = $('.navbar-header .navbar-search input[name="term"]');
+			const searchButton = $('.navbar-header .navbar-search button[type="button"]');
+			searchButton.off('click').on('click', function () {
+				if (!config.loggedIn && !app.user.privileges['search:content']) {
+					alerts.alert({
+						message: '[[error:search-requires-login]]',
+						timeout: 3000,
+					});
+					ajaxify.go('login');
+					return false;
+				}
+
+				searchButton.addClass('hidden');
+				searchInputEl.removeClass('hidden').focus();
+				return false;
+			});
+			searchInputEl.on('blur', function () {
+				searchInputEl.addClass('hidden');
+				searchButton.removeClass('hidden');
+			});
+			search.enableQuickSearch({
+				searchElements: {
+					inputEl: searchInputEl,
+					resultEl: $('.navbar-header .navbar-search .quick-search-container'),
+				},
+				searchOptions: {
+					in: config.searchDefaultInQuick,
+				},
+			});
+
 
 			// add a checkbox in the user settings page
 			// so users can swap the sides the menus appear on
@@ -326,7 +393,7 @@ $(document).ready(function () {
 									}
 								});
 						});
-					})
+					});
 				}
 			}
 
@@ -416,13 +483,13 @@ $(document).ready(function () {
 	}
 
 	function setupFavouriteMorph(parent, uid, username) {
-		require(['api'], function (api) {
+		require(['api', 'alerts'], function (api, alerts) {
 			parent.find('.btn-morph').click(function (ev) {
 				var type = $(this).hasClass('plus') ? 'follow' : 'unfollow';
 				var method = $(this).hasClass('plus') ? 'put' : 'del';
 
 				api[method]('/users/' + uid + '/follow').then(() => {
-					app.alertSuccess('[[global:alert.' + type + ', ' + username + ']]');
+					alerts.success('[[global:alert.' + type + ', ' + username + ']]');
 				});
 
 				$(this).toggleClass('plus').toggleClass('heart');
@@ -432,9 +499,9 @@ $(document).ready(function () {
 					$(this).prepend('<b class="drop"></b>');
 				}
 
-				var drop = $(this).find('b.drop').removeClass('animate'),
-					x = ev.pageX - drop.width() / 2 - $(this).offset().left,
-					y = ev.pageY - drop.height() / 2 - $(this).offset().top;
+				var drop = $(this).find('b.drop').removeClass('animate');
+				var x = ev.pageX - (drop.width() / 2) - $(this).offset().left;
+				var y = ev.pageY - (drop.height() / 2) - $(this).offset().top;
 
 				drop.css({ top: y + 'px', left: x + 'px' }).addClass('animate');
 			});
