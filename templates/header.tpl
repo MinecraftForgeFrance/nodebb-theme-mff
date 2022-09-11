@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{function.localeToHTML, userLang, defaultLang}" {{{if languageDirection}}}data-dir="{languageDirection}" style="direction: {languageDirection}; --panel-offset: 50px;" {{{end}}} >
+<html lang="{function.localeToHTML, userLang, defaultLang}" {{{if languageDirection}}}data-dir="{languageDirection}" style="direction: {languageDirection};" {{{end}}}>
 <head>
 	<title>{browserTitle}</title>
 	{{{each metaTags}}}{function.buildMetaTag}{{{end}}}
@@ -11,6 +11,7 @@
 		var app = {
 			user: JSON.parse('{{userJSON}}')
 		};
+		document.documentElement.style.setProperty('--panel-offset', `${localStorage.getItem('panelOffset') || 0}px`);
 	</script>
 
 	{{{if useCustomHTML}}}
@@ -34,7 +35,7 @@
 			<!-- MFF change: container-fuild and add shard and logo -->
 			<div class="container-fluid">
 				<div class="shard">
-					<a href="{{{if brand:logo:url}}}{brand:logo:url}{{{else}}}{relative_path}/{{{end}}}"><img src="/plugins/nodebb-theme-mff/images/logo.png"></a>
+					<a href="{{{if brand:logo:url}}}{brand:logo:url}{{{else}}}{relative_path}/{{{end}}}"><img src="/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/logo.png"></a>
 				</div>
 				<!-- IMPORT partials/menu.tpl -->
 			</div>

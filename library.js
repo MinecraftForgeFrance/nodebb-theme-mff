@@ -5,6 +5,9 @@ const winston = require.main.require('winston');
 const meta = require.main.require('./src/meta');
 const user = require.main.require('./src/user');
 const minifier = require.main.require('./src/meta/minifier');
+const translator = require.main.require('./src/translator');
+
+const controllers = require('./lib/controllers');
 
 const MFFTheme = {
     async init(params) {
@@ -15,6 +18,25 @@ const MFFTheme = {
             res.render('admin/plugins/persona', {});
         });
 
+        routeHelpers.setupAdminPageRoute(router, '/admin/plugins/persona', middleware, [], controllers.renderAdminPage);
+
+        routeHelpers.setupPageRoute(router, '/user/:userslug/theme', middleware, [
+            middleware.exposeUid,
+            middleware.ensureLoggedIn,
+            middleware.canViewUsers,
+            middleware.checkAccountPermissions,
+        ], controllers.renderThemeSettings);
+
+        routeHelpers.setupApiRoute(router, 'put', '/api/v3/users/:uid/settings/theme', [
+            middleware.ensureLoggedIn,
+            middleware.canViewUsers,
+            middleware.checkAccountPermissions,
+            middleware.checkRequired.bind(null, ['mffThemeSkin'])
+        ], controllers.updateThemeSettings);
+
+        console.log(
+            router.stack
+        );
         try {
             const bundle = await minifier.css.bundle('@import "dark-skin.less";', [ __dirname + '/less/mff'], true, true);
             fs.writeFileSync(__dirname + '/static/styles/dark-skin.css', bundle.code);
@@ -30,6 +52,23 @@ const MFFTheme = {
             name: 'MFF Theme (persona based)'
         });
         return header;
+    },
+    async addProfileItem(data) {
+        data.links.push({
+            id: 'theme',
+            route: 'theme',
+            icon: 'fa-paint-brush',
+            name: await translator.translate('[[persona:settings.title]]'),
+            visibility: {
+                self: true,
+                other: false,
+                moderator: false,
+                globalMod: false,
+                admin: false,
+            },
+        });
+
+        return data;
     },
     async defineWidgetAreas(areas) {
         const locations = ['header', 'sidebar', 'footer'];
@@ -86,40 +125,6 @@ const MFFTheme = {
 
         return data;
     },
-    async addUserSettings(data) {
-        let availableSkins = [{
-            name: 'Light',
-            value: 'light'
-        }, {
-            name: 'Dark',
-            value: 'dark'
-        }];
-
-        let options = '';
-        availableSkins.forEach(function(skin) {
-            options += `<option value="${skin.value}" ${(data.settings.mffThemeSkin === skin.value) ? 'selected' : ''}>${skin.name}</option>`;
-        });
-
-        data.customSettings.push({
-            title: 'Paramètre du thème',
-            content: `
-            <div class="form-group">
-                <label for="mffThemeSkin">Style de MFFv4</label>
-                <select class="form-control" id="mffThemeSkin" data-property="mffThemeSkin" autocomplete="off">
-                    ${options}
-                </select>
-            </div>`
-        });
-        return data;
-    },
-    saveUserSettings(data) {
-        user.setUserField(data.uid, "mffthemeskin", data.settings.mffThemeSkin);
-    },
-    async getUserSettings(data) {
-        const mffSkin = await user.getUserField(data.uid, "mffthemeskin");
-        data.settings.mffThemeSkin = mffSkin || "light";
-        return data;
-    },
     appendUserFields(data) {
         data.whitelist.push("mffthemeskin");
         return data;
@@ -130,7 +135,7 @@ const MFFTheme = {
             if(mffSkin === "dark") {
                 data.links.push({
                     rel: 'stylesheet',
-                    href: '/plugins/nodebb-theme-mff/styles/dark-skin.css'
+                    href: '/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/styles/dark-skin.css'
                 });
             }
         }

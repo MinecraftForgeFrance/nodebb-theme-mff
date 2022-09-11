@@ -2,7 +2,9 @@
 
 $(document).ready(function () {
 	setupNProgress();
+	setupTaskbar();
 	setupEditedByIcon();
+	setupMobileMenu();
 	setupQuickReply();
 	configureNavbarHiding();
 	updatePanelOffset();
@@ -10,16 +12,11 @@ $(document).ready(function () {
 	$(window).on('resize', utils.debounce(configureNavbarHiding, 200));
 	$(window).on('resize', updatePanelOffset);
 
-	$(window).on('action:app.load', function () {
-		setupTaskbar();
-		setupMobileMenu();
-	});
-
 	function updatePanelOffset() {
-		var env = utils.findBootstrapEnvironment();
 		const headerEl = document.getElementById('header-menu');
 
 		if (!headerEl) {
+			console.warn('[persona/updatePanelOffset] Could not find #header-menu, panel offset unchanged.');
 			return;
 		}
 
@@ -31,13 +28,9 @@ $(document).ready(function () {
 			(parseInt(headerStyle.marginTop, 10) || 0) +
 			(parseInt(headerStyle.marginBottom, 10) || 0);
 
-		// body element itself introduces a hardcoded 70px padding on desktop resolution
-		if (env === 'lg') {
-			offset -= 70;
-		}
-
 		offset = Math.max(0, offset);
 		document.documentElement.style.setProperty('--panel-offset', `${offset}px`);
+		localStorage.setItem('panelOffset', offset);
 	}
 
 	var lastBSEnv = '';
@@ -46,7 +39,14 @@ $(document).ready(function () {
 			return;
 		}
 
-		require(['hooks'], (hooks) => {
+		require(['hooks', 'storage'], (hooks, Storage) => {
+			let preference = ['xs', 'sm'];
+
+			try {
+				preference = JSON.parse(Storage.getItem('persona:navbar:autohide')) || preference;
+			} catch (e) {
+				console.warn('[persona/settings] Unable to parse value for navbar autohiding');
+			}
 			var env = utils.findBootstrapEnvironment();
 			// if env didn't change don't destroy and recreate
 			if (env === lastBSEnv) {
@@ -58,7 +58,7 @@ $(document).ready(function () {
 			navbarEl.css('top', '');
 
 			hooks.fire('filter:persona.configureNavbarHiding', {
-				resizeEnvs: ['xs', 'sm'],
+				resizeEnvs: preference,
 			}).then(({ resizeEnvs }) => {
 				if (resizeEnvs.includes(env)) {
 					navbarEl.autoHidingNavbar({
@@ -112,7 +112,14 @@ $(document).ready(function () {
 	}
 
 	function setupTaskbar() {
-		require(['hooks'], (hooks) => {
+		require(['hooks', 'storage'], (hooks, Storage) => {
+			let preference = ['xs', 'sm'];
+
+			try {
+				preference = JSON.parse(Storage.getItem('persona:navbar:autohide'));
+			} catch (e) {
+				console.warn('[persona/settings] Unable to parse value for navbar autohiding');
+			}
 			hooks.on('filter:taskbar.push', (data) => {
 				data.options.className = 'taskbar-' + data.module;
 				if (data.module === 'composer') {
@@ -200,7 +207,7 @@ $(document).ready(function () {
 			return;
 		}
 
-		require(['pulling', 'storage', 'alerts', 'search'], function (Pulling, Storage, alerts, search) {
+		require(['pulling/build/pulling-drawer', 'storage', 'alerts', 'search'], function (Pulling, Storage, alerts, search) {
 			if (!Pulling) {
 				return;
 			}
@@ -372,33 +379,6 @@ $(document).ready(function () {
 					in: config.searchDefaultInQuick,
 				},
 			});
-
-
-			// add a checkbox in the user settings page
-			// so users can swap the sides the menus appear on
-
-			function setupSetting() {
-				if (ajaxify.data.template['account/settings'] && !document.getElementById('persona:menus:legacy-layout')) {
-					require(['translator'], function (translator) {
-						translator.translate('[[persona:mobile-menu-side]]', function (translated) {
-							$('<div class="well checkbox"><label><input type="checkbox" id="persona:menus:legacy-layout"/><strong>' + translated + '</strong></label></div>')
-								.appendTo('#content .account > .row > div:first-child')
-								.find('input')
-								.prop('checked', Storage.getItem('persona:menus:legacy-layout', 'true'))
-								.change(function (e) {
-									if (e.target.checked) {
-										Storage.setItem('persona:menus:legacy-layout', 'true');
-									} else {
-										Storage.removeItem('persona:menus:legacy-layout');
-									}
-								});
-						});
-					});
-				}
-			}
-
-			$(window).on('action:ajaxify.end', setupSetting);
-			setupSetting();
 		});
 	}
 

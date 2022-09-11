@@ -15,7 +15,7 @@
             <div class="row footer-row first-footer-row">
                 <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">
                 <div class="shard footer-shard">
-                    <a href="/"><img src="/plugins/nodebb-theme-mff/images/credits.png" alt="Design by Woryk"></a>
+                    <a href="/"><img src="/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/credits.png" alt="Design by Woryk"></a>
                 </div>
                 <div class="footer-link">
                     <a href="/contact">Contact</a> / <a href="/legalnotice">Mentions Légales</a>
@@ -43,10 +43,6 @@
         </div>
     </footer>
     <!-- MFF change: Footer END -->
-
-	<div class="hide">
-	<!-- IMPORT 500-embed.tpl -->
-	</div>
 
 	<!-- IMPORT partials/footer/js.tpl -->
 </body>
