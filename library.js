@@ -34,9 +34,6 @@ const MFFTheme = {
             middleware.checkRequired.bind(null, ['mffThemeSkin'])
         ], controllers.updateThemeSettings);
 
-        console.log(
-            router.stack
-        );
         try {
             const bundle = await minifier.css.bundle('@import "dark-skin.less";', [ __dirname + '/less/mff'], true, true);
             fs.writeFileSync(__dirname + '/static/styles/dark-skin.css', bundle.code);
