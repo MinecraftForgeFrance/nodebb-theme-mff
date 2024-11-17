@@ -1,32 +1,37 @@
 <!-- IMPORT partials/breadcrumbs.tpl -->
 <div data-widget-area="header">
-	{{{each widgets.header}}}
+	{{{ each widgets.header }}}
 	{{widgets.header.html}}
-	{{{end}}}
+	{{{ end }}}
 </div>
 <div class="row">
-	<div class="<!-- IF widgets.sidebar.length -->col-lg-9 col-sm-12<!-- ELSE -->col-lg-12<!-- ENDIF widgets.sidebar.length -->">
-		<h1 class="categories-title">Minecraft Forge France</h1>
-		<ul class="categories" itemscope itemtype="http://www.schema.org/ItemList">
+	<div class="{{{ if widgets.sidebar.length }}}col-lg-9 col-sm-12{{{ else }}}col-lg-12{{{ end }}}">
+		{{{ if pagination.pages.length }}}
+		<div><!-- IMPORT partials/category/selector-dropdown-left.tpl --></div>
+		{{{ else }}}
+		<h1 class="categories-title text-uppercase text-sm mb-2 fw-normal">[[pages:categories]]</h1>
+		{{{ end }}}
+		<ul class="categories list-unstyled" itemscope itemtype="http://www.schema.org/ItemList">
 			<!-- MFF change: Section display -->
-			{{{each categories}}}
-			<!-- IF categories.isSection -->
-			<!-- IMPORT partials/categories/section_item.tpl -->
-			<!-- ELSE -->
+			{{{ each categories }}}
+			{{{ if categories.isSection }}}
+			<!-- IMPORT partials/categories/section-item.tpl -->
+			{{{ else }}}
 			<!-- IMPORT partials/categories/item.tpl -->
-			<!-- ENDIF categories.isSection -->
-			{{{end}}}
+			{{{ end }}}
+			{{{ end }}}
 			<!-- MFF change: Section display END -->
 		</ul>
+		<!-- IMPORT partials/paginator.tpl -->
 	</div>
-	<div data-widget-area="sidebar" class="col-lg-3 col-sm-12 <!-- IF !widgets.sidebar.length -->hidden<!-- ENDIF !widgets.sidebar.length -->">
-		{{{each widgets.sidebar}}}
+	<div data-widget-area="sidebar" class="col-lg-3 col-sm-12 {{{ if !widgets.sidebar.length }}}hidden{{{ end }}}">
+		{{{ each widgets.sidebar }}}
 		{{widgets.sidebar.html}}
-		{{{end}}}
+		{{{ end }}}
 	</div>
 </div>
-<div widget-area="footer">
-	{{{each widgets.footer}}}
+<div data-widget-area="footer">
+	{{{ each widgets.footer }}}
 	{{widgets.footer.html}}
-	{{{end}}}
+	{{{ end }}}
 </div>

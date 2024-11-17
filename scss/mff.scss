@@ -3,11 +3,11 @@
 		Node BB Theme CSS       
 \*****************************/
 
-@import 'mff/ubuntu_font';
+@import 'mff/ubuntu-font';
 
 // Banner
 #banner {
-    background: url(/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/background.jpg);
+    background: url(/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/background.webp);
     background-size: cover;
     background-repeat: no-repeat;
     height: 200px;
@@ -32,7 +32,7 @@
 @import 'mff/category';
 @import 'mff/categories';
 @import 'mff/buttons';
-@import 'mff/attachedicons';
+@import 'mff/attached-icons';
 
 // Persona .fab enter in conflict with font awesome branding icon. Override to default.
 i.fab {

@@ -1,6 +1,6 @@
 'use strict';
 
-define('forum/account/theme', ['forum/account/header', 'storage', 'settings', 'alerts', 'api'], function (header, Storage, settings, alerts, api) {
+define('forum/account/theme', ['forum/account/header', 'storage', 'settings', 'alerts'], function (header, Storage, settings, alerts) {
 	const Theme = {};
 
 	Theme.init = () => {
@@ -11,7 +11,6 @@ define('forum/account/theme', ['forum/account/header', 'storage', 'settings', 'a
 	Theme.setupForm = () => {
 		const saveEl = document.getElementById('save');
 		const formEl = document.getElementById('theme-settings');
-		const mffThemeSkinEl = document.getElementById('mffThemeSkin');
 		const [sidebarSwapped, autohideNavbarEnvs] = [
 			!!Storage.getItem('persona:menus:legacy-layout'),
 			Storage.getItem('persona:navbar:autohide'),
@@ -45,28 +44,10 @@ define('forum/account/theme', ['forum/account/header', 'storage', 'settings', 'a
 					Storage.setItem(key, themeSettings[key]);
 				});
 
-				api.put(`/users/${ajaxify.data.uid}/settings/theme`, { mffThemeSkin: mffThemeSkinEl.value }).then(() => {
-					alerts.success('[[success:settings-saved]]');
-				});
+				alerts.success('[[success:settings-saved]]');
 			});
-		}
-
-		if (mffThemeSkinEl) {
-			$('#mffThemeSkin').on('change', function () {
-                changePageSkin($(this).val());
-            });
 		}
 	};
 
-	function changePageSkin(skinName) {
-        var cssSource = '/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/styles/dark-skin.css';
-        if (skinName === 'light') {
-            $('link[href="' + cssSource + '"]').remove();
-        } else if (skinName === 'dark') {
-            $('head').append('<link rel="stylesheet" href="' + cssSource + '" media="screen">');
-        }
-    }
-
 	return Theme;
 });
-

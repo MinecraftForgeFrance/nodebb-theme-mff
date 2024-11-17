@@ -73,7 +73,7 @@
     }
 
     // Affichage mobile
-    @media (max-width: @screen-sm-max) {
+    @media (max-width: 992px) {
         .content {
             padding: 5px;
         }

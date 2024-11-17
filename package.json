@@ -1,8 +1,8 @@
 {
     "name": "@minecraftforgefrance/nodebb-theme-mff",
-    "version": "4.3.2",
+    "version": "4.4.0",
     "nbbpm": {
-        "compatibility": "^2.0.0"
+        "compatibility": "^3.0.0"
     },
     "description": "Minecraft Forge France V4.0 theme for NodeBB",
     "homepage": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff#readme",
@@ -36,9 +36,5 @@
     "license": "BSD-2-Clause",
     "bugs": {
         "url": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff/issues"
-    },
-    "dependencies": {
-        "pulling": "^2.0.1",
-        "striptags": "^3.2.0"
     }
 }

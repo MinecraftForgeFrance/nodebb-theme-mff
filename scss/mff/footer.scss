@@ -3,16 +3,21 @@ footer {
 }
 
 .footer-shard {
-	top: -52px;
+	bottom: 0;
+  	top: initial;
 }
 
 .footer-row {
 	background-color: #03263e;
-	font-size: 1.1rem;
+	font-size: 0.7rem;
+
+	p {
+		margin-bottom: 0.5rem;
+	}
 }
 
-.first-footer-row {
-	padding-top: 0.5rem;
+.footer-row:first-child {
+	padding-top: 0.25rem;
 }
 
 .footer-copyright {
@@ -34,8 +39,7 @@ footer {
 
 .footer-social-networks .icons-sm {
 	color: #c2c2c2;
-	padding: .5rem;
-	margin: .5rem;
+	padding: 0 0.5rem;
 	font-size: 16px;
 }
 
@@ -60,14 +64,21 @@ footer {
 
 .footer-link {
 	margin-left: 270px;
-}
 
-.footer-link a {
-	color: #c2c2c2;
-}
 
-.footer-link a:hover {
-	color: #f4f4f4;
+	a {
+		color: #c2c2c2;
+
+		&:first-child {
+			border-right: 1px solid #333;
+			margin-right: 0.25rem;
+			padding-right: 0.25rem;
+		}
+
+		&:hover {
+			color: #f4f4f4;
+		}
+	}
 }
 
 // force the footer to be away at the end
@@ -84,9 +95,9 @@ main {
 @media (max-width: 767px) {
     // horizontal smartphone / tablet
 	.footer-row {
-		font-size: 1.1em;
-		padding-top: 0.5em;
-		padding-bottom: 0.5em;
+		font-size: 1.0rem;
+		padding-top: 0.5rem;
+		padding-bottom: 0.5rem;
 		text-align: center;
 	}
 

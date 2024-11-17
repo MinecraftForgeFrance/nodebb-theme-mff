@@ -1,7 +1,8 @@
 .shard {
-	position: absolute;
-	left: 0;
+    position: absolute;
     z-index: 1;
+	left: 0;
+    top: 0;
     // Shard CSS3 
     // filter: drop-shadow(0 0 0.20rem #000);
 }
@@ -21,7 +22,7 @@
     clip-path: polygon(0 0, 100% 0%, 80% 99%, 0 68%);
     -webkit-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
     -moz-box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
-    background-color: #0a2a40;    
+    background-color: #0a2a40;
 }
 */
 
@@ -65,38 +66,8 @@
 	}
 }
 
-.navbar-default {
-    background-color: #01243c;
-    border-color: #2f5066;
-}
-
-.navbar-fixed-top {
-    border-width: 0 0 5px;
-}
-
-.navbar-default .navbar-nav>li>a {
-    color: #fff;
-}
-
-.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
-    color: #ccc;
-    background-color: #2f5066;
-}
-
-.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
-    color: #ccc;
-}
-
 .fa-facebook-square {
     color: #8fb3ff;
-}
-
-.navbar-toggle {
-    z-index: 2;
-}
-
-.navbar-default .navbar-toggle {
-    border-color: #fff;
 }
 
 #mobile-menu .fa-lg {
@@ -111,10 +82,35 @@
     margin-right: 45px;
 }
 
-.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-    background-color: #00000036;
-}
+nav.navbar {
+    background-color: #01243c;
+    --bs-border-color: #2f5066;
+    --bs-border-style: solid;
+    --bs-border-width: 5px;
 
-.navbar-default .btn-link {
-    color: #fff;
+    .nav-link {
+        --bs-nav-link-color: #fff;
+    }
+
+    .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+        color: #ccc;
+        background-color: #2f5066;
+    }
+
+    .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
+        color: #ccc;
+    }
+
+    .navbar-toggler:focus, .navbar-default .navbar-toggler:hover {
+        background-color: #00000036;
+    }
+
+    .btn-link {
+        color: #fff;
+    }
+
+    .navbar-toggler {
+        border-color: #fff;
+        z-index: 2;
+    }
 }
