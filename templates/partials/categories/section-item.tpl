@@ -5,7 +5,10 @@
 	<div class="content col-xs-12 col-md-12 col-sm-12">
 		<div class="section-header">
             <div class="pull-right">
-                <i class="fa fa-minus section-toggle" data-toggle="collapse" data-target="#collapse-section-{../cid}"></i>
+			  	<a data-bs-toggle="collapse" href="#collapse-section-{../cid}" role="button" aria-expanded="true" aria-controls="collapse-section-{../cid}">
+                	<i class="fa fa-minus section-toggle"></i>
+				</a>
+
             </div>
 			<h2 class="title">
 				{../name}
@@ -14,7 +17,7 @@
 			<span class="section-desc">{../descriptionParsed}</span>
 			<!-- ENDIF ../descriptionParsed -->
 		</div>
-		<div class="section-contents collapse in" id="collapse-section-{../cid}">
+		<div class="section-contents collapse show" id="collapse-section-{../cid}">
 			<ul class="categories" itemscope itemtype="http://www.schema.org/ItemList">
 			{{{each categories.children}}}
                 <!-- IMPORT partials/categories/item.tpl -->

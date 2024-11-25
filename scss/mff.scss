@@ -7,7 +7,7 @@
 
 // Banner
 #banner {
-    background: url(/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/background.webp);
+    background-image: url(/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/background.webp);
     background-size: cover;
     background-repeat: no-repeat;
     height: 200px;
@@ -33,16 +33,4 @@
 @import 'mff/categories';
 @import 'mff/buttons';
 @import 'mff/attached-icons';
-
-// Persona .fab enter in conflict with font awesome branding icon. Override to default.
-i.fab {
-	box-shadow: none;
-
-	background-color: initial;
-	border: none;
-	cursor: pointer;
-	line-height: initial;
-	vertical-align: initial;
-	height: auto;
-	width: auto;
-}
+@import 'mff/dark-skin';

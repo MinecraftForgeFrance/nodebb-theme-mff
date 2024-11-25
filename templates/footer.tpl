@@ -8,7 +8,7 @@
 
     <!-- MFF change: Footer -->
     <footer>
-        <div class="container-fluid">
+        <div class="container-fluid position-relative">
             <div class="row footer-row">
                 <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">
                 <div class="shard footer-shard">
