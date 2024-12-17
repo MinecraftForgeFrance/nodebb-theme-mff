@@ -1,19 +1,30 @@
-@media (prefers-color-scheme: dark) {
+@use "sass:color";
+
+$dark-blue-1: #07111d; // Main BG color
+$dark-blue-2: #01243c; // Btn BG color
+$dark-blue-border: #2f5066;
+$dark-blue-hover: hsl(204, 37%, 29%); // btn, link, etc. hover & focus bg color
+$text-white-1: #fff;
+$text-white-2: #e0e0e0;
+$text-white-3: #bebfc1;
+
+@include color-mode(dark) {
+    --bs-body-color-rgb: #{$text-white-2};
+    --bs-secondary-color: #{$text-white-3};
+    --bs-body-bg: #{$dark-blue-1};
+    --bs-body-bg-rgb: rgb(color.channel($dark-blue-1, "red", $space: rgb), color.channel($dark-blue-1, "green", $space: rgb), color.channel($dark-blue-1, "blue", $space: rgb));
+    --bs-border-color: #{$dark-blue-border};
+    --bs-btn-bg: #{$dark-blue-2};
+    --bs-btn-active-bg: #{$dark-blue-hover};
+    --bs-heading-color: #{$text-white-1};
+
     body {
-        background-color: #07111d;
-        color: #bebfc1;
+        background-color: $dark-blue-1;
+        color: $text-white-3;
 
         // dark banner
         #banner {
             background-image: url(/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/background-dark.webp);
-        }
-
-        // links
-        a {
-            color: #557a97;
-            &:hover {
-                color: #3b5569;
-            }
         }
 
         // categories titles
@@ -36,19 +47,19 @@
                 border-color: #2f5066;
 
                 > .panel-heading {
-                    color: #bebfc1;
-                    background-color: #01243c;
+                    color: $text-white-3;
+                    background-color: #020202;
                     border-color: #01243c;
                 }
 
             }
             .panel {
                 background-color: #0a2a40;
-                border: 1px solid #07111d;
+                border: 1px solid $dark-blue-1;
             }
 
             .well {
-                background-color: #07111d;
+                background-color: $dark-blue-1;
             }
 
             .shoutbox-content-overlay {
@@ -68,13 +79,13 @@
             }
 
             .form-control {
-                background-color: #07111d;
+                background-color: $dark-blue-1;
                 border: 1px solid #2f5066;
             }
         }
 
         .topic-list-header {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border-top: 1px solid #2f5066;
             border-bottom: 1px solid #2f5066;
         }
@@ -83,7 +94,7 @@
         .topic {
 
             .topic-header {
-                background-color: #07111d;
+                background-color: $dark-blue-1 !important;
             }
 
             .topic-info {
@@ -110,7 +121,7 @@
 
                 // code bloc
                 .hljs {
-                    background: #07111d;
+                    background: $dark-blue-1;
                 }
 
                 // table
@@ -179,7 +190,7 @@
         }
 
         .modal-content {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: 1px solid #0a2a40;
         }
 
@@ -205,7 +216,7 @@
         }
 
         .close:focus, .close:hover {
-            color: #fff;
+            color: $text-white-1;
         }
 
         .chat-modal [component="chat/composer"] [component="chat/input"], .chats-full [component="chat/composer"] [component="chat/input"] {
@@ -239,14 +250,14 @@
 
         .panel-default > .panel-heading {
             color: #d2d2d2;
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border-color: #2f5066;
         }
 
         // form control
 
         .form-control {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: 1px solid #2f5066;
             color: #ccc0bc;
         }
@@ -254,13 +265,13 @@
         // inputs
 
         .input-group .form-control {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: 1px solid #2f5066;
             color: #ccc0bc;
         }
 
         .input-group-addon {
-            color: #fff;
+            color: $text-white-1;
             background-color: #01243c;
             border: 1px solid #2f5066;
         }
@@ -272,22 +283,22 @@
         }
 
         .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
-            color: #fff;
-            background-color: #2f5066;
+            color: $text-white-1;
+            background-color: $dark-blue-hover;
         }
 
         .nav > li > a:focus, .nav > li > a:hover {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
             color: #e2e2e2;
         }
 
         .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
             color: #ccc;
         }
 
         .navbar-default .navbar-nav > .open > label, .navbar-default .navbar-nav > .open > label:focus, .navbar-default .navbar-nav > .open > label:hover {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
             color: #555;
         }
 
@@ -300,7 +311,7 @@
         }
 
         .nav > li > a:focus, .nav > li > a:hover {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
             color: #e2e2e2;
         }
 
@@ -318,7 +329,7 @@
 
         .btn-default.active, .btn-default.focus, .btn-default:active, .btn-default:focus, .btn-default:hover, .open > .dropdown-toggle.btn-default {
             color: #ccc;
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
         }
 
         // msg composer
@@ -328,7 +339,7 @@
         }
 
         .composer .form-control {
-            color: #bebfc1;
+            color: $text-white-3;
             background: #1c3247;
         }
 
@@ -337,11 +348,11 @@
         }
 
         .composer .formatting-bar .formatting-group li:focus, .composer .formatting-bar .formatting-group li:hover {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
         }
 
         .composer .write {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
         }
 
         // text header
@@ -355,6 +366,7 @@
 
         .tag-list .tag {
             background: #1e374b;
+            color: $text-white-2;
         }
 
         // profile
@@ -372,7 +384,7 @@
         }
 
         .account .cover .avatar-wrapper {
-            border: 4px solid #07111d;
+            border: 4px solid $dark-blue-1;
         }
 
         // chat
@@ -394,13 +406,13 @@
         }
 
         .chat-modal [component="chat/nav-wrapper"] .chat-search input, .chats-full [component="chat/nav-wrapper"] .chat-search input {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
         }
 
         // dropdown
 
         .dropdown-menu {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: 1px solid #2f5066;
             border-radius: 0;
             -webkit-box-shadow: 0 6px 12px rgba(47, 80, 102, 0.43);
@@ -408,12 +420,12 @@
         }
 
         .dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
-            color: #e0e0e0;
+            color: $text-white-2;
             background-color: #082031;
         }
 
         .header .chat-list, .slideout-menu .chat-list {
-            color: #bebfc1;
+            color: $text-white-3;
         }
 
         .header .chat-list > li:hover, .slideout-menu .chat-list > li:hover {
@@ -425,7 +437,7 @@
         }
 
         .dropdown-menu .divider {
-            background-color: #2f5066;
+            background-color: $dark-blue-hover;
         }
 
         .dropdown-menu > li > form > .btn-link, .dropdown-menu > li > form > button {
@@ -433,20 +445,20 @@
         }
 
         .dropdown-menu > li > form > .btn-link:focus, .dropdown-menu > li > form > .btn-link:hover, .dropdown-menu > li > form > button:focus, .dropdown-menu > li > form > button:hover {
-            color: #e0e0e0;
+            color: $text-white-2;
             background-color: #082031;
         }
 
         // list
 
         .list-group-item {
-            color: #bebfc1;
+            color: $text-white-3;
             background-color: #0a2a40;
-            border: 1px solid #07111d;
+            border: 1px solid $dark-blue-1;
         }
 
         a.list-group-item:focus, a.list-group-item:hover {
-            color: #e0e0e0;
+            color: $text-white-2;
             background-color: #082031;
         }
 
@@ -464,7 +476,7 @@
         }
 
         .panel-primary > .panel-heading {
-            color: #fff;
+            color: $text-white-1;
             background-color: #0a2a40;
             border-color: #2f5066;
         }
@@ -500,7 +512,7 @@
 
         // textarea
         textarea {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: 1px solid #2f5066!important;
         }
 
@@ -513,7 +525,7 @@
             color: #fdfdfd;
         }
         .rc-anchor-logo-text {
-            color: #fff;
+            color: $text-white-1;
         }
         .rc-anchor-pt a:link, .rc-anchor-pt a:visited {
             color: #c2c2c2;
@@ -526,19 +538,19 @@
 
         // alert
         .alert-warning {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             color: #7dbae8!important;
         }
 
         pre {
-            background-color: #07111d;
+            background-color: $dark-blue-1;
             border: none;
         }
 
         // code block
         code {
             color: #ad0001;
-            background-color: #07111d;
+            background-color: $dark-blue-1;
         }
 
         // forge-events page

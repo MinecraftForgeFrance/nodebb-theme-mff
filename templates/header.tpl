@@ -35,8 +35,12 @@
 		<nav class="navbar sticky-top navbar-expand-lg header border-bottom py-0" id="header-menu" component="navbar">
 			<!-- MFF change: container-fuild and add shard and logo -->
 			<div class="container-fluid justify-content-start flex-nowrap">
-				<div class="shard">
-					<a href="{{{if brand:logo:url}}}{brand:logo:url}{{{else}}}{relative_path}/{{{end}}}"><img src="/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/logo.png"></a>
+				<div class="shard shard-top">
+					<a href="{{{if brand:logo:url}}}{brand:logo:url}{{{else}}}{relative_path}/{{{end}}}">
+						<img class="d-inline-flex d-sm-none" src="/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/logo.webp">
+						<h1 class="d-inline-flex d-sm-none">MFF</h1>
+						<img class="d-none d-sm-inline" src="/assets/plugins/@minecraftforgefrance/nodebb-theme-mff/images/banner.webp">
+					</a>
 				</div>
 				<!-- IMPORT partials/menu.tpl -->
 			</div>

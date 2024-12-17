@@ -1,16 +1,68 @@
 .shard {
     position: absolute;
     z-index: 1;
-	left: 0;
-    top: 0;
-    // Shard CSS3 
-    // filter: drop-shadow(0 0 0.20rem #000);
+    left: 3rem;
+
+    &.shard-top {
+        height: 100%;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+    }
+
+    img {
+        max-height: 2.5rem;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0;
+        --bs-heading-color: #fff;
+    }
 }
 
-.shard img  {
-    max-width: 385px;
-    // Shard CSS3 
-    // margin: 8px 70px;
+#header-menu {
+    height: 50px;
+}
+
+@include media-breakpoint-up(sm) {
+    .shard {
+        left: 0;
+        top: 0;
+        // Shard CSS3
+        // filter: drop-shadow(0 0 0.20rem #000);
+
+        img {
+            max-width: 385px;
+            max-height: 6rem;
+            // Shard CSS3
+            // margin: 8px 70px;
+        }
+    }
+
+    #main-nav {
+        margin-left: 340px;
+    }
+
+    #logged-in-menu {
+        margin-right: 2rem !important;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    #header-menu div {
+        height: 46px;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    // Force item to be visible in lg
+    nav#menu li.nav-item span.visible-xs-inline {
+        display: inline !important;
+    }
 }
 
 // Shard CSS3 
@@ -26,48 +78,10 @@
 }
 */
 
-@media (max-width: 992px) {
-    // horizontal smartphone / tablet
-// Shard CSS3 
-/*  
-    #header-shard {
-        height: 98.8px;
-        width: 385px;    
-    }
 
-    .shard {
-        width: 237px;   
-        height: 60.81px; 
-    }
-*/
-	.shard img  {
-		max-width: 60%;
-	}
 
-    #banner {
-        height: 100px;
-    }
-}
-
-@media (max-width: 577px) {
-    // smartphone
-	.shard img  {
-		max-width: 85%;
-	}
-}
-
-#main-nav {
-    margin-left: 290px;
-}
-
-@media (max-width: 992px) {
-	#main-nav {
-		margin-left: 230px;
-	}
-}
-
-.fa-facebook-square {
-    color: #8fb3ff;
+#user_dropdown {
+    display: block;
 }
 
 #mobile-menu .fa-lg {
@@ -78,15 +92,12 @@
     color: #fff;
 }
 
-#logged-in-menu {
-    margin-right: 45px;
-}
-
 nav.navbar {
     background-color: #01243c;
     --bs-border-color: #2f5066;
     --bs-border-style: solid;
     --bs-border-width: 5px;
+    --bs-navbar-toggler-padding-x: 0.25rem;
 
     .nav-link {
         --bs-nav-link-color: #fff;

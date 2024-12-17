@@ -29,4 +29,36 @@ $(document).ready(function () {
         $("i[data-target='#" + e.currentTarget.id + "']").removeClass("fa-plus");
         $("i[data-target='#" + e.currentTarget.id + "']").addClass("fa-minus");
     });
+
+    function getPreferredTheme() {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+          return storedTheme;
+        }
+
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function setTheme(theme) {
+        if (theme === 'auto') {
+            document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        }
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme !== 'light' && storedTheme !== 'dark') {
+          setTheme(getPreferredTheme());
+        }
+    });
+
+    setTheme(getPreferredTheme());
+
+    $('#theme-picker li a').click(item => {
+        const theme = $(item.target).data('theme');
+        localStorage.setItem('theme', theme);
+        setTheme(theme);
+    });
 });
