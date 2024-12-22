@@ -4,15 +4,14 @@
 
 	<div class="content col-xs-12 col-md-12 col-sm-12">
 		<div class="section-header">
-            <div class="pull-right">
-			  	<a data-bs-toggle="collapse" href="#collapse-section-{../cid}" role="button" aria-expanded="true" aria-controls="collapse-section-{../cid}">
+            <div class="section-title-wrapper">
+				<h2 class="title">
+					{../name}
+				</h2>
+			  	<a data-bs-toggle="collapse" data-bs-target="#collapse-section-{../cid}" role="button" aria-expanded="true" aria-controls="collapse-section-{../cid}">
                 	<i class="fa fa-minus section-toggle"></i>
 				</a>
-
             </div>
-			<h2 class="title">
-				{../name}
-			</h2>
 			<!-- IF ../descriptionParsed -->
 			<span class="section-desc">{../descriptionParsed}</span>
 			<!-- ENDIF ../descriptionParsed -->

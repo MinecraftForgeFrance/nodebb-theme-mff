@@ -99,17 +99,14 @@ nav.navbar {
     --bs-border-width: 5px;
     --bs-navbar-toggler-padding-x: 0.25rem;
 
-    .nav-link {
+    .navbar-nav .nav-link {
         --bs-nav-link-color: #fff;
-    }
-
-    .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
-        color: #ccc;
-        background-color: #2f5066;
-    }
-
-    .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:hover {
-        color: #ccc;
+        --bs-nav-link-hover-color: #aaa;
+        --bs-navbar-active-color: #aaa;
+        &.active {
+            color: #ccc;
+            background-color: #2f5066;
+        }
     }
 
     .navbar-toggler:focus, .navbar-default .navbar-toggler:hover {
