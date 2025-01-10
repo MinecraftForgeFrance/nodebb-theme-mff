@@ -98,8 +98,6 @@ $text-white-3: #bebfc1;
             }
 
             .topic-info {
-                border-bottom: 1px solid #2f5066;
-
                 .stats {
                     color: #ccc0bc;
                 }
@@ -147,12 +145,6 @@ $text-white-3: #bebfc1;
 
             .posts {
                 [component="post"] {
-                    border-bottom: 1px solid #2f5066;
-
-                    &[data-index="0"] {
-                        border-bottom: 5px solid #2f5066;
-                    }
-
                     .isSolved {
                         .content {
                             background-color: #1c473f;
@@ -177,7 +169,7 @@ $text-white-3: #bebfc1;
                     }
 
                     .avatar {
-                        box-shadow: 0 0 0 .25rem #2f5066 !important;
+                        box-shadow: 0 0 0 .125rem #2f5066 !important;
                     }
                 }
             }
@@ -358,7 +350,7 @@ $text-white-3: #bebfc1;
         // text header
 
         .text-header {
-            background-color: #0a2a40;
+            background-color: #001422;
             border: 1px solid #2f5066;
         }
 
@@ -465,7 +457,6 @@ $text-white-3: #bebfc1;
         // admonition
 
         .admonition p {
-            padding: 0 1rem;
             color: #01243c;
         }
 
@@ -574,6 +565,23 @@ $text-white-3: #bebfc1;
 
         .panel-default > .panel-heading + .panel-collapse > .panel-body {
             border-top-color: #2f5066;
+        }
+
+        ul.topics-list, ul.categories-list {
+            li.selected {
+                background-color: mix($dark-blue-1, $text-white-2, 85%);
+            }
+        }
+
+        blockquote {
+            background-color: #0a1c33;
+        }
+
+        .composer .tags-container .bootstrap-tagsinput input {
+            &::placeholder{
+                color: $text-white-3;
+            }
+            color: $text-white-1;
         }
     }
 }
