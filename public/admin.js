@@ -1,15 +1,24 @@
 'use strict';
 
 define('admin/plugins/persona', ['settings'], function (Settings) {
-	var ACP = {};
+    const ACP = {};
 
-	ACP.init = function () {
-		Settings.load('persona', $('.persona-settings'));
+    ACP.init = function () {
+        const settingsElem = document.querySelector('.persona-settings');
+        const saveButton = document.getElementById('save');
 
-		$('#save').on('click', function () {
-			Settings.save('persona', $('.persona-settings'));
-		});
-	};
+        if (settingsElem) {
+            Settings.load('persona', settingsElem);
+        }
 
-	return ACP;
+        if (saveButton) {
+            saveButton.addEventListener('click', function () {
+                if (settingsElem) {
+                    Settings.save('persona', settingsElem);
+                }
+            });
+        }
+    };
+
+    return ACP;
 });

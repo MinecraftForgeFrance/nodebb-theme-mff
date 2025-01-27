@@ -2,7 +2,7 @@
     "name": "@minecraftforgefrance/nodebb-theme-mff",
     "version": "4.4.0",
     "nbbpm": {
-        "compatibility": "^3.0.0"
+        "compatibility": "^3.0.0 || ^4.0.0"
     },
     "description": "Minecraft Forge France V4.0 theme for NodeBB",
     "homepage": "https://github.com/MinecraftForgeFrance/nodebb-theme-mff#readme",

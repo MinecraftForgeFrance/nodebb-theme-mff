@@ -49,9 +49,11 @@ const MFFTheme = {
             'unread.tpl', 'recent.tpl', 'popular.tpl', 'top.tpl', 'tags.tpl', 'tag.tpl',
             'login.tpl', 'register.tpl',
         ];
+
         function capitalizeFirst(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
+
         templates.forEach((template) => {
             locations.forEach((location) => {
                 areas.push({

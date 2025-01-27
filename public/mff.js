@@ -1,24 +1,24 @@
 'use strict';
 
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
     const hiddenCategoriesIds = getHiddenCategoriesIds();
     setInitialCollapseStateAndListenEvents(hiddenCategoriesIds);
     // Hide MFF banner on account and group page.
-    if ($('#content').find('div.account').length !== 0 || $('#content').find('div.groups').length !== 0) {
-        $('#banner').css("display", "none");
+    if (document.querySelector('#content div.account') !== null || document.querySelector('#content div.groups') !== null) {
+        document.getElementById('banner').style.display = 'none';
     }
 
     // Hide MFF banner when transition to account or group page.
-    $(window).on('action:ajaxify.start', function (ev, data) {
+    window.addEventListener('action:ajaxify.start', function (ev, data) {
         if (data.url && ((data.url.match('user/') && !data.url.match('/chats')) || data.url.match('groups/'))) {
-            $('#banner').css("display", "none");
+            document.getElementById('banner').style.display = 'none';
         }
     });
 
     // Show again MFF banner when living user or group page
-    $(window).on('action:ajaxify.end', function (ev, data) {
+    window.addEventListener('action:ajaxify.end', function (ev, data) {
         if (!data.url || ((!data.url.match('user/') || data.url.match('/chats')) && !data.url.match('groups/'))) {
-            $('#banner').css("display", "block");
+            document.getElementById('banner').style.display = "block";
         }
 
         if (data.url === '' || data.url === 'categories') {
@@ -41,8 +41,7 @@ $(document).ready(function () {
                 return new Set(cIds);
             }
             return new Set();
-        }
-        catch(e) {
+        } catch (e) {
             console.log('Invalid hidden-cids, reset to empty array');
             return new Set();
         }
@@ -54,34 +53,53 @@ $(document).ready(function () {
 
     function setInitialCollapseStateAndListenEvents(hiddenCids) {
         for (const cid of hiddenCids) {
-            $(`#collapse-section-${cid}`).removeClass('show');
-            $("a[data-bs-target='#collapse-section-" + cid + "'] > i").removeClass("fa-minus");
-            $("a[data-bs-target='#collapse-section-" + cid + "'] > i").addClass("fa-plus");
-            $("a[data-bs-target='#collapse-section-" + cid + "']").attr("aria-expanded", "false");
-            $("a[data-bs-target='#collapse-section-" + cid + "']").addClass("collapsed");
+            const section = document.getElementById(`collapse-section-${cid}`);
+            if (section) {
+                section.classList.remove('show');
+            }
+            const linkIcon = document.querySelector(`a[data-bs-target='#collapse-section-${cid}'] > i`);
+            if (linkIcon) {
+                linkIcon.classList.remove('fa-minus');
+                linkIcon.classList.add('fa-plus');
+            }
+
+            const link = document.querySelector(`a[data-bs-target='#collapse-section-${cid}']`);
+            if (link) {
+                link.setAttribute('aria-expanded', 'false');
+                link.classList.add('collapsed');
+            }
         }
 
-        $('.section-contents').on('hidden.bs.collapse', function (e) {
-            $("a[data-bs-target='#" + e.currentTarget.id + "'] > i").removeClass("fa-minus");
-            $("a[data-bs-target='#" + e.currentTarget.id + "'] > i").addClass("fa-plus");
-            const cid = extractCid(e.currentTarget.id);
-            hiddenCategoriesIds.add(cid);
-            saveHiddenCategoriesIds(hiddenCategoriesIds);
-        });
+        const sectionContents = document.querySelectorAll('.section-contents');
+        sectionContents.forEach(section => {
+            section.addEventListener('hidden.bs.collapse', function (e) {
+                const icon = document.querySelector(`a[data-bs-target='#${e.currentTarget.id}'] > i`);
+                if (icon) {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+                const cid = extractCid(e.currentTarget.id);
+                hiddenCategoriesIds.add(cid);
+                saveHiddenCategoriesIds(hiddenCategoriesIds);
+            });
 
-        $('.section-contents').on('show.bs.collapse', function (e) {
-            $("a[data-bs-target='#" + e.currentTarget.id + "'] > i").removeClass("fa-plus");
-            $("a[data-bs-target='#" + e.currentTarget.id + "'] > i").addClass("fa-minus");
-            const cid = extractCid(e.currentTarget.id);
-            hiddenCategoriesIds.delete(cid);
-            saveHiddenCategoriesIds(hiddenCategoriesIds);
+            section.addEventListener('shown.bs.collapse', function (e) {
+                const icon = document.querySelector(`a[data-bs-target='#${e.currentTarget.id}'] > i`);
+                if (icon) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                }
+                const cid = extractCid(e.currentTarget.id);
+                hiddenCategoriesIds.delete(cid);
+                saveHiddenCategoriesIds(hiddenCategoriesIds);
+            });
         });
     }
 
     function getPreferredTheme() {
         const storedTheme = localStorage.getItem('theme');
         if (storedTheme) {
-          return storedTheme;
+            return storedTheme;
         }
 
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -98,15 +116,18 @@ $(document).ready(function () {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         const storedTheme = localStorage.getItem('theme');
         if (storedTheme !== 'light' && storedTheme !== 'dark') {
-          setTheme(getPreferredTheme());
+            setTheme(getPreferredTheme());
         }
     });
 
     setTheme(getPreferredTheme());
 
-    $('#theme-picker li a').click(item => {
-        const theme = $(item.target).data('theme');
-        localStorage.setItem('theme', theme);
-        setTheme(theme);
+    const themePickerItems = document.querySelectorAll('#theme-picker li a');
+    themePickerItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            const theme = event.target.dataset.theme;
+            localStorage.setItem('theme', theme);
+            setTheme(theme);
+        });
     });
 });
