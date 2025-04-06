@@ -4,7 +4,7 @@ define('admin/plugins/persona', ['settings'], function (Settings) {
     const ACP = {};
 
     ACP.init = function () {
-        const settingsElem = document.querySelector('.persona-settings');
+        const settingsElem = $('.persona-settings');
         const saveButton = document.getElementById('save');
 
         if (settingsElem) {
