@@ -12,9 +12,9 @@
                 	<i class="fa fa-minus section-toggle"></i>
 				</a>
             </div>
-			<!-- IF ../descriptionParsed -->
-			<span class="section-desc">{../descriptionParsed}</span>
-			<!-- ENDIF ../descriptionParsed -->
+			{{{ if ./descriptionParsed }}}
+				<span class="section-desc">{{./descriptionParsed}}</span>
+			{{{ end }}}
 		</div>
 		<div class="section-contents collapse show" id="collapse-section-{../cid}">
 			<ul class="categories" itemscope itemtype="http://www.schema.org/ItemList">
