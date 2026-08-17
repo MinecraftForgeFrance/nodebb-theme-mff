@@ -1,6 +1,6 @@
 {
     "name": "@minecraftforgefrance/nodebb-theme-mff",
-    "version": "4.4.1",
+    "version": "4.5.0",
     "nbbpm": {
         "compatibility": "^4.15.0"
     },
